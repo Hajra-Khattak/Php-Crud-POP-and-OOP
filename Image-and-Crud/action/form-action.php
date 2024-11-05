@@ -39,7 +39,7 @@ if(isset($_POST["submit"]) || !empty($_POST["submit"]) ){
         array_push($status['msg'], "PASSWORD IS REQUIRED");
     }
 
-    // Check if Email is already occuupied
+    // Check if Email is already occuupied 
     $sql = "SELECT * FROM `user` WHERE `email` = '{$email}'";
     $result = $conn->query($sql);
     
@@ -47,15 +47,35 @@ if(isset($_POST["submit"]) || !empty($_POST["submit"]) ){
         $status['errors']++;
         array_push($status['msg'], "EMAIL ALREADY EXIST");
     }
-   
+
+    $validImageExtension = ['jpg', 'jpeg', 'png'];
+    
+    $file = File_upload("image", $validImageExtension, "assets/images/" );
+   if($file == 1){
+    $string = strtoupper(implode(",", $validImageExtension));
+    echo "{$string} ONLY ALLOWED"; 
+   }else{
+    $encode = json_encode($file);
+
+   }
+   if($file == false){
+    $status['errors']++;
+    array_push($status["msg"], "UPLOADING ERROR");
+   }
+
+
+    /*
     if($_FILES["image"]["error"] === 4){
         $status['errors']++;
         array_push($status['msg'], "Image Doesn't found");
     }else{
+
+
         $file = $_FILES[$inputFile];
         // $file = $_FILES["image"];
         $fileName = $_FILES["image"]["name"];
         $fileSize = $file . ["size"];
+        $tempName = $file["tmp_name"];
 
         $validImageExtension = ['jpg', 'jpeg', 'png'];
         $ImageExtension = explode('.', $fileName);
@@ -81,14 +101,16 @@ if(isset($_POST["submit"]) || !empty($_POST["submit"]) ){
             // echo "Successfully Added";
             // refresh_url(3, DASHBOARD);
             // }
-            
-      
+        }
 
+    }   
+      
+*/
         if($status["errors"] > 0){
             foreach($status["msg"] as $msg){
                 ERROR_MSG($msg);
             }
-            refresh_url(2, DASHBOARD);
+            // refresh_url(2, DASHBOARD);
         }else{
 
  
@@ -111,7 +133,5 @@ if(isset($_POST["submit"]) || !empty($_POST["submit"]) ){
 
         refresh_url(2, DASHBOARD);
     }
-}
 
-}
 }

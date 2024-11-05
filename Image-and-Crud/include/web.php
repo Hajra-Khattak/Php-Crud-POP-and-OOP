@@ -6,6 +6,10 @@ define("FOLDER", "todolist/Image-and-Crud/");
 
 define("DOMAIN", SERVER.FOLDER);
 
+//  C:\xammp\hdocs
+define("SERVER2", $_SERVER['DOCUMENT_ROOT']);
+define("DOMAIN2", SERVER2.FOLDER);
+
 define("DASHBOARD", DOMAIN."dashboard.php");
 
 define("INSERT_FORM", DOMAIN."action/form-action.php");

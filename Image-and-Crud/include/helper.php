@@ -50,6 +50,59 @@ function redirect_url($url){
     header("location: {$url}");
 }
 
+function File_upload($input, $exe, $destination ){
+    $file = $_FILES[$input];
+    // $file = $_FILES["image"];
+    $fileName = $_FILES["image"]["name"];
+    $fileSize = $file . ["size"];
+    $tempName = $file["tmp_name"];
+
+    $validImageExtension = $exe;
+    // $validImageExtension = ['jpg', 'jpeg', 'png'];
+
+     $ImageExtension = explode('.', $fileName);
+     $ImageExtension = strtolower(end($ImageExtension));
+
+
+     if(!in_array($ImageExtension, $validImageExtension)){
+        
+        ERROR_MSG("Invalid Image Extension");
+        // $status['errors']++;
+        // array_push($status['msg'], "Invalid Image Extension");
+    }
+    elseif($fileSize > 1000000) {
+        ERROR_MSG("Invalid Image Size");
+
+        // $status['errors']++;
+        // array_push($status['msg'], "Invalid Image Size");
+    }else{
+        $newImageName = uniqid();
+        $newImageName = '.' . $ImageExtension;
+
+        $relative_path = DOMAIN2 . $destination . $fileName; // saving and removing
+
+        $absolute_path = DOMAIN . $destination . $fileName; // fetch from database
+
+        if(move_uploaded_file($tempName, $relative_path)){
+            $status = [
+                "relative_path" => $relative_path,
+                "absolute_path" => $absolute_path
+            ];
+            return $status;
+        }else{
+            ERROR_MSG("Image not Saved");
+        }
+        
+        // $query = "INSERT INTO `user`(`image`) VALUES '{$newImageName}'";
+        // $exe = $conn->query($query);
+        // if($exe){
+        // echo "Successfully Added";
+        // refresh_url(3, DASHBOARD);
+        // }
+    }
+
+}
+
 ?>
     <!-- Bootstrap JavaScript Libraries -->
     <script
