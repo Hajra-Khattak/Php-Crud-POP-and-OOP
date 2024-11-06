@@ -51,27 +51,36 @@ function redirect_url($url){
 }
 
 function File_upload($input, $exe, $destination ){
+
+    if(!isset($_FILES[$input]) || $_FILES[$input]["error"]=== 4){
+        return false;
+    }
+
     $file = $_FILES[$input];
     // $file = $_FILES["image"];
-    $fileName = $_FILES["image"]["name"];
-    $fileSize = $file . ["size"];
+    $fileName = $file["name"];
+    $fileSize = $file["size"];
     $tempName = $file["tmp_name"];
 
     $validImageExtension = $exe;
+    $ImageExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
     // $validImageExtension = ['jpg', 'jpeg', 'png'];
 
-     $ImageExtension = explode('.', $fileName);
-     $ImageExtension = strtolower(end($ImageExtension));
+    //  $ImageExtension = explode('.', $fileName);
+    //  $ImageExtension = strtolower(end($ImageExtension));
+    // $ImageExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
 
      if(!in_array($ImageExtension, $validImageExtension)){
         
-        ERROR_MSG("Invalid Image Extension");
+        return 1;
+        // ERROR_MSG("Invalid Image Extension");
         // $status['errors']++;
         // array_push($status['msg'], "Invalid Image Extension");
     }
     elseif($fileSize > 1000000) {
-        ERROR_MSG("Invalid Image Size");
+        return 2;
+        // ERROR_MSG("Invalid Image Size");
 
         // $status['errors']++;
         // array_push($status['msg'], "Invalid Image Size");
@@ -90,7 +99,8 @@ function File_upload($input, $exe, $destination ){
             ];
             return $status;
         }else{
-            ERROR_MSG("Image not Saved");
+            // ERROR_MSG("Image not Saved");
+            return false;
         }
         
         // $query = "INSERT INTO `user`(`image`) VALUES '{$newImageName}'";
