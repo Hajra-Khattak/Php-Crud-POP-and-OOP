@@ -112,8 +112,9 @@ while ($row = mysqli_fetch_assoc($result)) {
                     <?php       echo $row['password']          ?>
                     </td>
                     <td>
-                        <img src=" <?php echo "image";  ?>" alt=""> 
+                        <img src=" <?php echo "image";  ?>" alt="User Image" width="100" height="100"> 
                     </td>
+                    
                     <td> 
                         <a href="<?php echo EDIT_FORM; ?>?token=<?php echo base64_encode($row['id']); ?>" class="btn btn-primary btn-sm">Edit</a>
                         <a href="<?php echo DELETE_FORM; ?>?token=<?php echo base64_encode($row['id']); ?>" class="btn btn-danger btn-sm">DELETE</a>
