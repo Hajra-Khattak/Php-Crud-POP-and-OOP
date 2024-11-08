@@ -13,6 +13,12 @@ if(isset($_POST["update"]) )
     $email = filter_data($_POST['email']);
     $password = filter_data($_POST['password']);
 
+    // ================= Image ====================
+    $inputFile = "image";
+    $file = $_FILES[$inputFile];
+    $extention = ["jpg", "png", 'jpeg'];
+
+    // =====================================
     $userId = filter_data(base64_decode($_POST['_token']));
 
     // For all Errors in array
